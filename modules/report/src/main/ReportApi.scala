@@ -228,7 +228,7 @@ final class ReportApi(
     withUsers <- UserRepo byIdsSecondary reports.map(_.user).distinct map { users =>
       reports.flatMap { r =>
         users.find(_.id == r.user) map { u =>
-          accuracy(u).map { a =>
+          accuracyCache get u.id map { a =>
             Report.WithUser(r, u, isOnline(u.id), a)
           }
         }
@@ -244,9 +244,15 @@ final class ReportApi(
     }
   } yield withNotes
 
-  private def accuracy(reporter: User): Fu[Int] = for {
-    by <- coll.find($doc("createdBy" -> reporter.id)).sort($sort.createdDesc).list[Report](20, ReadPreference.secondaryPreferred)
-    accuracy <- UserRepo byIdsSecondary by.filter(x => x.processedBy.isDefined && x.reason == Reason.Cheat).map(_.user).distinct map { users =>
+  private val accuracyCache = asyncCache.multi[String, Int](
+    name = "reporterAccuracy",
+    f = accuracy,
+    expireAfter = _.ExpireAfterWrite(10 minutes)
+  )
+
+  private def accuracy(reporterId: String): Fu[Int] = for {
+    by <- coll.find($doc("createdBy" -> reporterId)).sort($sort.createdDesc).list[Report](20, ReadPreference.secondaryPreferred)
+    accuracy <- UserRepo byIdsSecondary by.filter(x => x.processed && x.reason == Reason.Cheat).map(_.user).distinct map { users =>
       Math.round((users.filter(_.engine).length + 0.5f) / (users.length + 2f) * 100)
     }
   } yield accuracy

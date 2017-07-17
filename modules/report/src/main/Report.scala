@@ -56,7 +56,7 @@ object Report {
   case class WithUser(report: Report, user: User, isOnline: Boolean, accuracy: Int) {
 
     def urgency: Int =
-      (nowSeconds - report.createdAt.getSeconds).toInt +
+      accuracy +
         (isOnline ?? (86400 * 5)) +
         (report.processed ?? Int.MinValue)
   }
