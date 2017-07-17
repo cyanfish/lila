@@ -38,9 +38,15 @@ moreCss = cssTag("report.css")) {
     </thead>
     <tbody>
       @reports.map {
-      case WithUserAndNotes(WithUser(r, u, _, accuracy), notes) if (!r.isTrollOrInsult || isGranted(_.MarkTroll)) => {
+      case WithUserAndNotes(WithUser(r, u, _, accuracy, room), notes) if (!r.isTrollOrInsult || isGranted(_.MarkTroll)) => {
       <tr class="@r.unprocessed.fold("new", "")">
-        <td>@userIdLink(r.createdBy.some)<br />@momentFormat(r.createdAt)<br /><strong>@accuracy%</strong> accuracy</td>
+        <td>
+          @userIdLink(r.createdBy.some)<br />
+          @momentFormat(r.createdAt)<br />
+          @if(accuracy.isDefined) {
+          <strong>@accuracy%</strong> accuracy
+          }
+        </td>
         <td>@userLink(u, params = "?mod")<br />@showBestPerf(u)</td>
         <td>
           <div class="text@if(r.text.size > 200 || r.text.lines.size > 5){ large}">
