@@ -228,17 +228,28 @@ final class ReportApi(
     withUsers <- UserRepo byIdsSecondary reports.map(_.user).distinct map { users =>
       reports.flatMap { r =>
         users.find(_.id == r.user) map { u =>
-          Report.WithUser(r, u, isOnline(u.id))
+          accuracy(u).map { a =>
+            Report.WithUser(r, u, isOnline(u.id), a)
+          }
         }
       }
     }
-    sorted = withUsers.sortBy(-_.urgency)
+    sorted <- withUsers.sequenceFu map { wu =>
+      wu.sortBy(-_.urgency)
+    }
     withNotes <- noteApi.byMod(sorted.map(_.user.id).distinct) map { notes =>
       sorted.map { wu =>
         Report.WithUserAndNotes(wu, notes.filter(_.to == wu.user.id))
       }
     }
   } yield withNotes
+
+  private def accuracy(reporter: User): Fu[Int] = for {
+    by <- coll.find($doc("createdBy" -> reporter.id)).sort($sort.createdDesc).list[Report](20, ReadPreference.secondaryPreferred)
+    accuracy <- UserRepo byIdsSecondary by.filter(x => x.processedBy.isDefined && x.reason == Reason.Cheat).map(_.user).distinct map { users =>
+      Math.round((users.filter(_.engine).length + 0.5f) / (users.length + 2f) * 100)
+    }
+  } yield accuracy
 
   def countUnprocesssedByRooms: Fu[Room.Counts] = {
     import reactivemongo.api.collections.bson.BSONBatchCommands.AggregationFramework._
