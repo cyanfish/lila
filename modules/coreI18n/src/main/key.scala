@@ -1267,6 +1267,7 @@ object I18nKey:
     val `normalAnalysis`: I18nKey = "study:normalAnalysis"
     val `hideNextMoves`: I18nKey = "study:hideNextMoves"
     val `interactiveLesson`: I18nKey = "study:interactiveLesson"
+    val `repertoireTraining`: I18nKey = "study:repertoireTraining"
     val `chapterX`: I18nKey = "study:chapterX"
     val `empty`: I18nKey = "study:empty"
     val `startFromInitialPosition`: I18nKey = "study:startFromInitialPosition"

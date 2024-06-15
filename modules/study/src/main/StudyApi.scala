@@ -659,6 +659,7 @@ final class StudyApi(
             name = name,
             practice = data.isPractice.option(true),
             gamebook = data.isGamebook.option(true),
+            repertoire = data.isRepertoire.option(true),
             conceal = (chapter.conceal, data.isConceal) match
               case (None, true)     => chapter.root.ply.some
               case (Some(_), false) => None
@@ -689,6 +690,7 @@ final class StudyApi(
                     (newChapter.setup.orientation != chapter.setup.orientation) ||
                       (newChapter.practice != chapter.practice) ||
                       (newChapter.gamebook != chapter.gamebook) ||
+                      (newChapter.repertoire != chapter.repertoire) ||
                       (newChapter.description != chapter.description)
                   if shouldReload then sendTo(study.id)(_.updateChapter(chapter.id, who))
                   else reloadChapters(study)

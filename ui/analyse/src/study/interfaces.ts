@@ -107,6 +107,7 @@ export interface StudyChapterConfig {
   description?: string;
   practice: boolean;
   gamebook: boolean;
+  repertoire: boolean;
   conceal?: number;
 }
 
@@ -119,6 +120,7 @@ export interface StudyChapter {
   practice: boolean;
   conceal?: number;
   gamebook: boolean;
+  repertoire: boolean;
   features: StudyChapterFeatures;
   description?: string;
   relayPath?: Tree.Path;

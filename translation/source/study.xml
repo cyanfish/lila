@@ -93,6 +93,7 @@
   <string name="normalAnalysis">Normal analysis</string>
   <string name="hideNextMoves">Hide next moves</string>
   <string name="interactiveLesson">Interactive lesson</string>
+  <string name="repertoireTraining">Repertoire training</string>
   <string name="chapterX">Chapter %s</string>
   <string name="empty">Empty</string>
   <string name="startFromInitialPosition">Start from initial position</string>

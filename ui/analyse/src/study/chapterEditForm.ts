@@ -109,6 +109,8 @@ function viewLoaded(ctrl: StudyChapterEditForm, data: StudyChapterConfig): VNode
       ? 'conceal'
       : data.gamebook
       ? 'gamebook'
+      : data.repertoire
+      ? 'repertoire'
       : 'normal',
     noarg = ctrl.trans.noarg;
   return [

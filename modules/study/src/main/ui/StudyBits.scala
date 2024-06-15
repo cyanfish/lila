@@ -172,6 +172,7 @@ final class StudyBits(helpers: Helpers):
       trs.normalAnalysis,
       trs.hideNextMoves,
       trs.interactiveLesson,
+      trs.repertoireTraining,
       trs.chapterX,
       trs.empty,
       trs.startFromInitialPosition,

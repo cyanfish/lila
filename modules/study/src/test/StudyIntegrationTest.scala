@@ -38,6 +38,7 @@ class StudyIntegrationTest extends munit.FunSuite:
       None,
       None,
       None,
+      None,
       studyInstant
     ).updateDenorm
 

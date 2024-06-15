@@ -19,6 +19,7 @@ export const modeChoices = [
   ['practice', 'practiceWithComputer'],
   ['conceal', 'hideNextMoves'],
   ['gamebook', 'interactiveLesson'],
+  ['repertoire', 'repertoireTraining'],
 ];
 
 export const fieldValue = (e: Event, id: string) =>
@@ -123,6 +124,8 @@ export function view(ctrl: StudyChapterNewForm): VNode {
     ? 'conceal'
     : currentChapter.gamebook
     ? 'gamebook'
+    : currentChapter.repertoire
+    ? 'repertoire'
     : 'normal';
   const noarg = trans.noarg;
 

@@ -189,6 +189,7 @@ final private class RelaySync(
       ownerId = study.ownerId,
       practice = false,
       gamebook = false,
+      repertoire = false,
       conceal = none,
       relay = makeRelayFor(game, game.root.mainlinePath).some
     )

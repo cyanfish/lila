@@ -61,6 +61,7 @@ final private class ChapterMaker(
       ownerId = userId,
       practice = data.isPractice,
       gamebook = data.isGamebook,
+      repertoire = data.isRepertoire,
       conceal = data.isConceal.option(parsed.root.ply)
     )
 
@@ -118,6 +119,7 @@ final private class ChapterMaker(
       ownerId = userId,
       practice = data.isPractice,
       gamebook = data.isGamebook,
+      repertoire = data.isRepertoire,
       conceal = data.isConceal.option(root.ply)
     )
 
@@ -155,6 +157,7 @@ final private class ChapterMaker(
       ownerId = userId,
       practice = data.isPractice,
       gamebook = data.isGamebook,
+      repertoire = data.isRepertoire,
       conceal = data.isConceal.option(root.ply)
     )
 
@@ -204,16 +207,17 @@ private[study] object ChapterMaker:
 
   enum Mode:
     def key = toString.toLowerCase
-    case Normal, Practice, Gamebook, Conceal
+    case Normal, Practice, Gamebook, Repertoire, Conceal
   object Mode:
     def apply(key: String) = values.find(_.key == key)
 
   trait ChapterData:
     def orientation: Orientation
     def mode: ChapterMaker.Mode
-    def isPractice = mode == Mode.Practice
-    def isGamebook = mode == Mode.Gamebook
-    def isConceal  = mode == Mode.Conceal
+    def isPractice   = mode == Mode.Practice
+    def isGamebook   = mode == Mode.Gamebook
+    def isRepertoire = mode == Mode.Repertoire
+    def isConceal    = mode == Mode.Conceal
 
   enum Orientation(val key: String, val resolve: Option[Color]):
     case Fixed(color: Color) extends Orientation(color.name, color.some)

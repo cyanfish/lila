@@ -22,6 +22,7 @@ case class Chapter(
     conceal: Option[Ply] = None,
     practice: Option[Boolean] = None,
     gamebook: Option[Boolean] = None,
+    repertoire: Option[Boolean] = None,
     description: Option[String] = None,
     relay: Option[Chapter.Relay] = None,
     serverEval: Option[Chapter.ServerEval] = None,
@@ -107,9 +108,10 @@ case class Chapter(
     result = tags.outcome.isDefined.option(tags.outcome)
   )
 
-  def isPractice = ~practice
-  def isGamebook = ~gamebook
-  def isConceal  = conceal.isDefined
+  def isPractice   = ~practice
+  def isGamebook   = ~gamebook
+  def isRepertoire = ~repertoire
+  def isConceal    = conceal.isDefined
 
   def withoutChildren = copy(root = root.withoutChildren)
 
@@ -174,6 +176,7 @@ object Chapter:
       ownerId: UserId,
       practice: Boolean,
       gamebook: Boolean,
+      repertoire: Boolean,
       conceal: Option[Ply],
       relay: Option[Relay] = None
   ) =
@@ -188,6 +191,7 @@ object Chapter:
       ownerId = ownerId,
       practice = practice.option(true),
       gamebook = gamebook.option(true),
+      repertoire = repertoire.option(true),
       conceal = conceal,
       relay = relay,
       createdAt = nowInstant
