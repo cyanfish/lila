@@ -14,13 +14,15 @@ import { importPgn, variants as xhrVariants } from './studyXhr';
 import { StudyChapters } from './studyChapters';
 import { FEN } from 'chessground/types';
 
-export const modeChoices = [
-  ['normal', 'normalAnalysis'],
-  ['practice', 'practiceWithComputer'],
-  ['conceal', 'hideNextMoves'],
-  ['gamebook', 'interactiveLesson'],
-  ['repertoire', 'repertoireTraining'],
-];
+export function modeChoices(beta: boolean) {
+  return [
+    ['normal', 'normalAnalysis'],
+    ['practice', 'practiceWithComputer'],
+    ['conceal', 'hideNextMoves'],
+    ['gamebook', 'interactiveLesson'],
+    ...(beta ? [['repertoire', 'repertoireTraining']] : []),
+  ];
+}
 
 export const fieldValue = (e: Event, id: string) =>
   ((e.target as HTMLElement).querySelector('#chapter-' + id) as HTMLInputElement)?.value;
@@ -333,7 +335,7 @@ export function view(ctrl: StudyChapterNewForm): VNode {
             h('label.form-label', { attrs: { for: 'chapter-mode' } }, noarg('analysisMode')),
             h(
               'select#chapter-mode.form-control',
-              modeChoices.map(c => option(c[0], mode, noarg(c[1]))),
+              modeChoices(ctrl.root.opts.beta).map(c => option(c[0], mode, noarg(c[1]))),
             ),
           ]),
           h(

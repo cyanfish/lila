@@ -60,7 +60,7 @@ export default class StudyChaptersCtrl {
     this.list = new StudyChapters(this.store);
     this.loadFromServer(initChapters);
     this.newForm = new StudyChapterNewForm(send, this.list, setTab, root);
-    this.editForm = new StudyChapterEditForm(send, chapterConfig, root.trans, root.redraw);
+    this.editForm = new StudyChapterEditForm(send, chapterConfig, root.trans, root.redraw, root.opts.beta);
   }
 
   sort = (ids: string[]) => this.send('sortChapters', ids);

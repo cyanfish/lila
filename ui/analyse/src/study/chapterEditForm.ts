@@ -16,6 +16,7 @@ export class StudyChapterEditForm {
     private readonly chapterConfig: (id: string) => Promise<StudyChapterConfig>,
     readonly trans: Trans,
     readonly redraw: Redraw,
+    readonly beta: boolean,
   ) {}
 
   open = (data: ChapterPreview) => {
@@ -126,7 +127,7 @@ function viewLoaded(ctrl: StudyChapterEditForm, data: StudyChapterConfig): VNode
         h('label.form-label', { attrs: { for: 'chapter-mode' } }, noarg('analysisMode')),
         h(
           'select#chapter-mode.form-control',
-          chapterForm.modeChoices.map(c => option(c[0], mode, noarg(c[1]))),
+          chapterForm.modeChoices(ctrl.beta).map(c => option(c[0], mode, noarg(c[1]))),
         ),
       ]),
     ]),

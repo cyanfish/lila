@@ -67,6 +67,7 @@ def show(
             .add("showRatings", ctx.pref.showRatings),
           "data"     -> data.analysis,
           "i18n"     -> jsI18n(),
+          "beta"     -> isGranted(_.Beta),
           "tagTypes" -> lila.study.PgnTags.typesToString,
           "userId"   -> ctx.userId,
           "chat" -> chatOption.map: c =>
